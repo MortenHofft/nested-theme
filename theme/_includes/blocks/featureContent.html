@@ -1,0 +1,52 @@
+{% assign preTitle = include.preTitle | default: include.content.preTitle %}
+{% assign title = include.title | default: include.content.title %}
+{% assign description = include.description | default: include.content.description %}
+{% assign imageLicense = include.imageLicense | default: include.content.imageLicense %}
+{% assign cta = include.cta | default: include.content.cta %}
+{% assign center = include.center | default: include.content.center %}
+{% assign categories = include.categories | default: include.content.categories %}
+{% assign href = include.href | default: include.content.href | default: false %}
+
+<div class="feature-content {% if center %} feature-content--centered {% endif %}">
+  <div class="feature-text">
+    {% if href %}<a href="{{ href }}" class="feature-overlay"></a>{% endif %}
+    {% if preTitle %}
+    <div class="feature-pre-title">{{ preTitle }}</div>
+    {% endif %}
+
+    {% if title %}
+    <h3 class="feature-title">
+      {% if href %}
+      <a href="{{ href }}">{{ title }}</a>
+      {% else %}
+      {{ title }}
+      {% endif %}
+    </h3>
+    {% endif %}
+  </div>
+  
+  {% if description %}
+  <div class="feature-description">
+    {{ description | markdownify }}
+  </div>
+  {% endif %}
+
+  {% if cta %}
+  <div class="feature-cta">
+    {% for cta in cta %}
+    <a href="{{ cta.href | relative_url }}" class="button {% if cta.isPrimary %}is-primary{% else %}is-outlined{% endif %}">{{ cta.text }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if categories %}
+  <div class="feature-categories">
+    <div class="tags">
+      {% for category in categories %}
+        <a class="tag is-light" href="{{ site.algae.archive_permalink | relative_url }}?category={{ category | strip | url_encode }}">{{ category }}</a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
